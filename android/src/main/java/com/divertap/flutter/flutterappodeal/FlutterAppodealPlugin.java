@@ -49,11 +49,12 @@ public class FlutterAppodealPlugin implements MethodCallHandler, RewardedVideoCa
         if (call.method.equals("initialize")) {
             String appKey = call.argument("appKey");
             List<Integer> types = call.argument("types");
+            Boolean hasConsent = call.argument("hasConsent");
             int type = Appodeal.NONE;
             for (int type2 : types) {
                 type = type | this.appodealAdType(type2);
             }
-            Appodeal.initialize(activity, appKey, type);
+            Appodeal.initialize(activity, appKey, type, hasConsent);
             result.success(Boolean.TRUE);
         } else if (call.method.equals("showInterstitial")) {
             Appodeal.show(activity, Appodeal.INTERSTITIAL);

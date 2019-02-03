@@ -53,6 +53,7 @@ class FlutterAppodeal {
   Future initialize(
     String appKey,
     List<AppodealAdType> types,
+    bool hasConsent
   ) async {
     shouldCallListener = false;
     List<int> itypes = new List<int>();
@@ -62,6 +63,7 @@ class FlutterAppodeal {
     _channel.invokeMethod('initialize', <String, dynamic>{
       'appKey': appKey,
       'types': itypes,
+      'hasConsent': hasConsent,
     });
   }
 
