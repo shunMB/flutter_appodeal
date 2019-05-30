@@ -29,13 +29,14 @@
   if ([@"initialize" isEqualToString:call.method]) {
       NSString* appKey = call.arguments[@"appKey"];
       NSArray* types = call.arguments[@"types"];
+      NSNumber* hasConsent = call.arguments[@"hasConsent"];
       AppodealAdType type = types.count > 0 ? [self typeFromParameter:types.firstObject] : AppodealAdTypeInterstitial;
       int i = 1;
       while (i < types.count) {
           type = type | [self typeFromParameter:types[i]];
           i++;
       }
-      [Appodeal initializeWithApiKey:appKey types:type];
+      [Appodeal initializeWithApiKey:appKey types:type hasConsent: [hasConsent boolValue]];
       result([NSNumber numberWithBool:YES]);
   }else if ([@"showInterstitial" isEqualToString:call.method]) {
       [Appodeal showAd:AppodealShowStyleInterstitial rootViewController:[FlutterAppodealPlugin rootViewController]];
@@ -57,7 +58,6 @@
             return AppodealAdTypeInterstitial;
         case 4:
             return AppodealAdTypeRewardedVideo;
-            
         default:
             break;
     }
@@ -70,7 +70,6 @@
             return AppodealShowStyleInterstitial;
         case 4:
             return AppodealShowStyleRewardedVideo;
-            
         default:
             break;
     }
@@ -79,8 +78,8 @@
 
 #pragma mark - RewardedVideo Delegate
 
-- (void)rewardedVideoDidLoadAd {
-    [channel invokeMethod:@"onRewardedVideoLoaded" arguments:nil];
+- (void)rewardedVideoDidLoadAdIsPrecache:(BOOL)precache {
+    [channel invokeMethod:@"rewardedVideoDidLoadAdIsPrecache" arguments:@{@"precache":@(precache)}];
 }
 
 - (void)rewardedVideoDidFailToLoadAd {
@@ -91,8 +90,8 @@
     [channel invokeMethod:@"onRewardedVideoPresent" arguments:nil];
 }
 
-- (void)rewardedVideoWillDismiss {
-    [channel invokeMethod:@"onRewardedVideoWillDismiss" arguments:nil];
+- (void)rewardedVideoWillDismissAndWasFullyWatched {
+    [channel invokeMethod:@"rewardedVideoWillDismissAndWasFullyWatched" arguments:nil];
 }
 
 - (void)rewardedVideoDidFinish:(NSUInteger)rewardAmount name:(NSString *)rewardName {

@@ -1,8 +1,8 @@
 name: flutter_appodeal
 description: A Flutter plugin for Appodel SDK
-version: 0.1.0
-author: Fernando Vaquero - Divertap <fernando@divertap.com>
-homepage: https://github.com/fvaquero/flutter_appodeal
+version: 0.2.0
+author: Jordan Lewis <dev_jordanlewis at icloud.com> forked from Fernando Vaquero - Divertap <fernando@divertap.com>
+homepage: https://github.com/jjlewis/flutter_appodeal
 
 dependencies:
   flutter:

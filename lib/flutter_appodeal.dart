@@ -33,10 +33,10 @@ class FlutterAppodeal {
 
   static const Map<String, RewardedVideoAdEvent> _methodToRewardedVideoAdEvent =
       const <String, RewardedVideoAdEvent>{
-    'onRewardedVideoLoaded': RewardedVideoAdEvent.loaded,
+    'rewardedVideoDidLoadAdIsPrecache': RewardedVideoAdEvent.loaded,
     'onRewardedVideoFailedToLoad': RewardedVideoAdEvent.failedToLoad,
     'onRewardedVideoPresent': RewardedVideoAdEvent.present,
-    'onRewardedVideoWillDismiss': RewardedVideoAdEvent.willDismiss,
+    'rewardedVideoWillDismissAndWasFullyWatched': RewardedVideoAdEvent.willDismiss,
     'onRewardedVideoFinished': RewardedVideoAdEvent.finish,
   };
 
@@ -53,6 +53,7 @@ class FlutterAppodeal {
   Future initialize(
     String appKey,
     List<AppodealAdType> types,
+    bool hasConsent
   ) async {
     shouldCallListener = false;
     List<int> itypes = new List<int>();
@@ -62,6 +63,7 @@ class FlutterAppodeal {
     _channel.invokeMethod('initialize', <String, dynamic>{
       'appKey': appKey,
       'types': itypes,
+      'hasConsent': hasConsent,
     });
   }
 
@@ -104,6 +106,6 @@ class FlutterAppodeal {
       }
     }
 
-    return new Future<Null>(null);
+    return null;
   }
 }
