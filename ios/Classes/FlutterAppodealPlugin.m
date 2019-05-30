@@ -79,7 +79,7 @@
 #pragma mark - RewardedVideo Delegate
 
 - (void)rewardedVideoDidLoadAdIsPrecache:(BOOL)precache {
-    [channel invokeMethod:@"onRewardedVideoLoaded" arguments:nil];
+    [channel invokeMethod:@"rewardedVideoDidLoadAdIsPrecache" arguments:@{@"precache":@(precache)}];
 }
 
 - (void)rewardedVideoDidFailToLoadAd {
@@ -91,7 +91,7 @@
 }
 
 - (void)rewardedVideoWillDismissAndWasFullyWatched {
-    [channel invokeMethod:@"onRewardedVideoWillDismiss" arguments:nil];
+    [channel invokeMethod:@"rewardedVideoWillDismissAndWasFullyWatched" arguments:nil];
 }
 
 - (void)rewardedVideoDidFinish:(NSUInteger)rewardAmount name:(NSString *)rewardName {

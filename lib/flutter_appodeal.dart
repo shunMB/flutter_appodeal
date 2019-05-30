@@ -33,10 +33,10 @@ class FlutterAppodeal {
 
   static const Map<String, RewardedVideoAdEvent> _methodToRewardedVideoAdEvent =
       const <String, RewardedVideoAdEvent>{
-    'onRewardedVideoLoaded': RewardedVideoAdEvent.loaded,
+    'rewardedVideoDidLoadAdIsPrecache': RewardedVideoAdEvent.loaded,
     'onRewardedVideoFailedToLoad': RewardedVideoAdEvent.failedToLoad,
     'onRewardedVideoPresent': RewardedVideoAdEvent.present,
-    'onRewardedVideoWillDismiss': RewardedVideoAdEvent.willDismiss,
+    'rewardedVideoWillDismissAndWasFullyWatched': RewardedVideoAdEvent.willDismiss,
     'onRewardedVideoFinished': RewardedVideoAdEvent.finish,
   };
 
