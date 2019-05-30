@@ -58,7 +58,6 @@
             return AppodealAdTypeInterstitial;
         case 4:
             return AppodealAdTypeRewardedVideo;
-
         default:
             break;
     }
@@ -79,7 +78,7 @@
 
 #pragma mark - RewardedVideo Delegate
 
-- (void)rewardedVideoDidLoadAd {
+- (void)rewardedVideoDidLoadAdIsPrecache:(BOOL)precache {
     [channel invokeMethod:@"onRewardedVideoLoaded" arguments:nil];
 }
 
@@ -91,7 +90,7 @@
     [channel invokeMethod:@"onRewardedVideoPresent" arguments:nil];
 }
 
-- (void)rewardedVideoWillDismiss {
+- (void)rewardedVideoWillDismissAndWasFullyWatched {
     [channel invokeMethod:@"onRewardedVideoWillDismiss" arguments:nil];
 }
 
