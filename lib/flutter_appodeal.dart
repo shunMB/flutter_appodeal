@@ -106,6 +106,6 @@ class FlutterAppodeal {
       }
     }
 
-    return new Future<Null>(null);
+    return null;
   }
 }
