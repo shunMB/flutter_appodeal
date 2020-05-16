@@ -123,7 +123,7 @@ public class FlutterAppodealPlugin implements MethodCallHandler, RewardedVideoCa
     }
 
     @Override
-    public void onRewardedVideoFinished(int i, String s) {
+    public void onRewardedVideoFinished(double amount, String s) {
         channel.invokeMethod("onRewardedVideoFinished", argumentsMap());
     }
 
