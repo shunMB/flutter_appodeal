@@ -113,6 +113,16 @@ public class FlutterAppodealPlugin implements MethodCallHandler, RewardedVideoCa
     }
 
     @Override
+    public void onRewardedVideoShowFailed() {
+        channel.invokeMethod("onRewardedVideoShowFailed", argumentsMap());
+    }
+
+    @Override
+    public void onRewardedVideoClicked() {
+        channel.invokeMethod("onRewardedVideoClicked", argumentsMap());
+    }
+
+    @Override
     public void onRewardedVideoFinished(int i, String s) {
         channel.invokeMethod("onRewardedVideoFinished", argumentsMap());
     }
@@ -120,6 +130,11 @@ public class FlutterAppodealPlugin implements MethodCallHandler, RewardedVideoCa
     @Override
     public void onRewardedVideoClosed(boolean b) {
         channel.invokeMethod("onRewardedVideoWillDismiss", argumentsMap());
+    }
+
+    @Override
+    public void onRewardedVideoExpired() {
+        channel.invokeMethod("onRewardedVideoExpired", argumentsMap());
     }
 
 }
