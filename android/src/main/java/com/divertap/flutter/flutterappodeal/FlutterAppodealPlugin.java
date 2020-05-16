@@ -14,7 +14,6 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
-import io.presage.finder.model.App;
 
 /**
  * FlutterAppodealPlugin
@@ -99,7 +98,7 @@ public class FlutterAppodealPlugin implements MethodCallHandler, RewardedVideoCa
 
     // Appodeal Rewarded Video Callbacks
     @Override
-    public void onRewardedVideoLoaded() {
+    public void onRewardedVideoLoaded(boolean isPrecache) {
         channel.invokeMethod("onRewardedVideoLoaded", argumentsMap());
     }
 
@@ -122,4 +121,5 @@ public class FlutterAppodealPlugin implements MethodCallHandler, RewardedVideoCa
     public void onRewardedVideoClosed(boolean b) {
         channel.invokeMethod("onRewardedVideoWillDismiss", argumentsMap());
     }
+
 }
