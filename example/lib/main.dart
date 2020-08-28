@@ -88,7 +88,7 @@ class _MyAppState extends State<MyApp> {
     if (loaded) {
       FlutterAppodeal.instance.showInterstitial();
     } else {
-      print("No se ha cargado un Interstitial");
+      print("Interstitial loading...");
     }
   }
 
@@ -96,9 +96,12 @@ class _MyAppState extends State<MyApp> {
     bool loaded = await FlutterAppodeal.instance
         .isLoaded(AppodealAdType.AppodealAdTypeRewardedVideo);
     if (loaded) {
-      FlutterAppodeal.instance.showRewardedVideo(placement: 'default');
+      // Add your placement name
+      FlutterAppodeal.instance.showRewardedVideo(
+        placement: 'default',
+      );
     } else {
-      print("No se ha cargado un Rewarded Video");
+      print("Rewarded Video loading...");
     }
   }
 }
