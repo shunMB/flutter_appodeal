@@ -14,13 +14,14 @@ enum AppodealAdType {
 enum RewardedVideoAdEvent {
   loaded,
   failedToLoad,
+  failedToPresent,
   present,
   willDismiss,
   finish,
 }
 
 typedef void RewardedVideoAdListener(RewardedVideoAdEvent event,
-    {String rewardType, int rewardAmount});
+    {String rewardType, double rewardAmount});
 
 class FlutterAppodeal {
 
@@ -35,6 +36,7 @@ class FlutterAppodeal {
       const <String, RewardedVideoAdEvent>{
     'rewardedVideoDidLoadAdIsPrecache': RewardedVideoAdEvent.loaded,
     'onRewardedVideoFailedToLoad': RewardedVideoAdEvent.failedToLoad,
+    'onRewardedVideoDidFailToPresentWithError': RewardedVideoAdEvent.failedToPresent,
     'onRewardedVideoPresent': RewardedVideoAdEvent.present,
     'rewardedVideoWillDismissAndWasFullyWatched': RewardedVideoAdEvent.willDismiss,
     'onRewardedVideoFinished': RewardedVideoAdEvent.finish,
@@ -78,9 +80,11 @@ class FlutterAppodeal {
   /*
     Shows an Rewarded Video in the root view controller or main activity
    */
-  Future showRewardedVideo() async {
+  Future showRewardedVideo({String placement}) async {
     shouldCallListener = true;
-    _channel.invokeMethod('showRewardedVideo');
+    _channel.invokeMethod('showRewardedVideo', <String, dynamic>{
+      'placement': placement,
+    });
   }
 
   Future<bool> isLoaded(AppodealAdType type) async {
@@ -96,7 +100,7 @@ class FlutterAppodeal {
         _methodToRewardedVideoAdEvent[call.method];
     if (rewardedEvent != null && shouldCallListener) {
       if (this.videoListener != null) {
-        if (rewardedEvent == RewardedVideoAdEvent.finish && argumentsMap != null) {
+        if (rewardedEvent == RewardedVideoAdEvent.finish && argumentsMap != null) {   
           this.videoListener(rewardedEvent,
               rewardType: argumentsMap['rewardType'],
               rewardAmount: argumentsMap['rewardAmount']);
