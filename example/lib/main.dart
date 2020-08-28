@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
       types.add(AppodealAdType.AppodealAdTypeInterstitial);
       types.add(AppodealAdType.AppodealAdTypeRewardedVideo);
       FlutterAppodeal.instance.videoListener =
-          (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
+          (RewardedVideoAdEvent event, {String rewardType, double rewardAmount}) {
         print("RewardedVideoAd event $event");
         setState(() {
           videoState = "State $event";
@@ -96,7 +96,7 @@ class _MyAppState extends State<MyApp> {
     bool loaded = await FlutterAppodeal.instance
         .isLoaded(AppodealAdType.AppodealAdTypeRewardedVideo);
     if (loaded) {
-      FlutterAppodeal.instance.showRewardedVideo();
+      FlutterAppodeal.instance.showRewardedVideo(placement: 'default');
     } else {
       print("No se ha cargado un Rewarded Video");
     }
