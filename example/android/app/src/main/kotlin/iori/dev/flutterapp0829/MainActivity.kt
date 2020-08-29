@@ -1,4 +1,4 @@
-package iori.dev.flutterapp0829
+package iori.dev.flutter_appodeal_example
 
 import io.flutter.embedding.android.FlutterActivity
 

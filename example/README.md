@@ -1,4 +1,4 @@
-# flutterapp0829
+# flutter_appodeal_example
 
 A new Flutter application.
 
