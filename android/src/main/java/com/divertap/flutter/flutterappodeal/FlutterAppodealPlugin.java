@@ -126,8 +126,8 @@ public class FlutterAppodealPlugin implements MethodCallHandler, RewardedVideoCa
     @Override
     public void onRewardedVideoFinished(double amount, String s) {
         Map<String, Object> arguments = new HashMap<>();
-        arguments.put("rewardType",s);
         arguments.put("rewardAmount",amount);
+        arguments.put("rewardType",s);
         channel.invokeMethod("onRewardedVideoFinished", arguments);
     }
 
