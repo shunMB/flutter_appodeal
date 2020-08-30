@@ -45,7 +45,11 @@ public class FlutterAppodealPlugin implements MethodCallHandler, RewardedVideoCa
             result.error("no_activity", "flutler_appodeal plugin requires a foreground activity", null);
             return;
         }
-        if (call.method.equals("initialize")) {
+
+        if(call.method.equals("setUserData")){
+            String userId = call.argument("userId");
+            Appodeal.setUserId(userId);
+            }else if (call.method.equals("initialize")) {
             String appKey = call.argument("appKey");
             List<Integer> types = call.argument("types");
             Boolean hasConsent = call.argument("hasConsent");
@@ -125,7 +129,10 @@ public class FlutterAppodealPlugin implements MethodCallHandler, RewardedVideoCa
 
     @Override
     public void onRewardedVideoFinished(double amount, String s) {
-        channel.invokeMethod("onRewardedVideoFinished", argumentsMap());
+        Map<String, Object> arguments = new HashMap<>();
+        arguments.put("rewardAmount",amount);
+        arguments.put("rewardType",s);
+        channel.invokeMethod("onRewardedVideoFinished", arguments);
     }
 
     @Override
