@@ -28,7 +28,23 @@
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
   if ([@"setUserData" isEqualToString:call.method]){
       NSString* userId = call.arguments[@"userId"];
+      NSUInteger age = call.arguments[@"age"];
+      NSInteger genderIndex = call.arguments[@"gender"];
       [Appodeal setUserId:userId];
+      [Appodeal setUserAge:age];
+      switch (genderIndex) {
+        case 0:
+            [Appodeal setUserGender:AppodealUserGenderMale];
+            break;
+        case 1:
+            [Appodeal setUserGender:AppodealUserGenderFemale];
+            break;
+        case 2:
+            [Appodeal setUserGender:AppodealUserGenderOther];
+            break;
+        default:
+            break;
+      }
       result([NSNumber numberWithBool:YES]);
   }else if ([@"initialize" isEqualToString:call.method]) {
       NSString* appKey = call.arguments[@"appKey"];

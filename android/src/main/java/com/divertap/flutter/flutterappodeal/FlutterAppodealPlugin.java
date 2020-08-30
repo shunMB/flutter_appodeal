@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.appodeal.ads.Appodeal;
 import com.appodeal.ads.RewardedVideoCallbacks;
+import com.appodeal.ads.UserSettings;
 
 import java.util.HashMap;
 import java.util.List;
@@ -48,8 +49,18 @@ public class FlutterAppodealPlugin implements MethodCallHandler, RewardedVideoCa
 
         if (call.method.equals("setUserData")) {
             String userId = call.argument("userId");
-            System.out.print(userId);
+            int age = call.argument("age");
+            int genderIndex = call.argument("gender");
             Appodeal.setUserId(userId);
+            Appodeal.setUserAge(age);
+            switch (genderIndex) {
+                case 0:
+                    Appodeal.setUserGender(UserSettings.Gender.MALE);
+                case 1:
+                    Appodeal.setUserGender(UserSettings.Gender.FEMALE);
+                case 2:
+                    Appodeal.setUserGender(UserSettings.Gender.OTHER);
+            }
             result.success(Boolean.TRUE);
         } else if (call.method.equals("initialize")) {
             String appKey = call.argument("appKey");

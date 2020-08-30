@@ -38,6 +38,8 @@ class _MyAppState extends State<MyApp> {
       // If not needed, remove or comment out below.
       await FlutterAppodeal.instance.setUserData(
         userId: 'XXXXX-YYYYY-ZZZZZ',
+        age: 25, 
+        gender: 0, // Set 0:'male', 1:'female' or 2:'other'  
       );
 
       // You should use here your APP Key from Appodeal

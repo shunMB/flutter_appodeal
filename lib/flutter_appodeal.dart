@@ -55,14 +55,16 @@ class FlutterAppodeal {
 
   static FlutterAppodeal get instance => _instance;
 
-  // NOTE: Additionally, gender and age can be set for
-  //   user data for better ad targeting and higher eCPM.
   Future setUserData({
     String userId,
+    int age,
+    int gender,
   }) async {
     shouldCallListener = false;
     await _channel.invokeMethod('setUserData', <String, dynamic>{
       'userId': userId,
+      'age': age,
+      'gender': gender,
     });
   }
 
