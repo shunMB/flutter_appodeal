@@ -128,7 +128,7 @@ public class FlutterAppodealPlugin implements MethodCallHandler, RewardedVideoCa
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("rewardType",s);
         arguments.put("rewardAmount",amount);
-        channel.invokeMethod("onRewardedVideoFinished", argumentsMap());
+        channel.invokeMethod("onRewardedVideoFinished", arguments);
     }
 
     @Override
