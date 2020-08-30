@@ -42,7 +42,10 @@
       [Appodeal showAd:AppodealShowStyleInterstitial rootViewController:[FlutterAppodealPlugin rootViewController]];
       result([NSNumber numberWithBool:YES]);
   }else if ([@"showRewardedVideo" isEqualToString:call.method]) {
-      [Appodeal showAd:AppodealShowStyleRewardedVideo rootViewController:[FlutterAppodealPlugin rootViewController]];
+      NSString* placement = call.arguments[@"placement"];
+      if ([Appodeal isInitalizedForAdType:AppodealAdTypeRewardedVideo] && [Appodeal canShow:AppodealAdTypeRewardedVideo forPlacement:placement]) {
+            [Appodeal showAd:AppodealShowStyleRewardedVideo forPlacement:placement rootViewController:[FlutterAppodealPlugin rootViewController]];
+      }
       result([NSNumber numberWithBool:YES]);
   }else if ([@"isLoaded" isEqualToString:call.method]) {
       NSNumber *type = call.arguments[@"type"];
@@ -86,20 +89,26 @@
     [channel invokeMethod:@"onRewardedVideoFailedToLoad" arguments:nil];
 }
 
+- (void)rewardedVideoDidFailToPresentWithError:(NSError *)error {
+    [channel invokeMethod:@"onRewardedVideoDidFailToPresentWithError" arguments:@{@"error":error}];
+}
+
+
 - (void)rewardedVideoDidPresent {
     [channel invokeMethod:@"onRewardedVideoPresent" arguments:nil];
 }
 
-- (void)rewardedVideoWillDismissAndWasFullyWatched {
-    [channel invokeMethod:@"rewardedVideoWillDismissAndWasFullyWatched" arguments:nil];
+- (void)rewardedVideoWillDismissAndWasFullyWatched:(BOOL)wasFullyWatched {
+    [channel invokeMethod:@"rewardedVideoWillDismissAndWasFullyWatched" arguments:@{@"wasFullyWatched":@(wasFullyWatched)}];
 }
 
-- (void)rewardedVideoDidFinish:(NSUInteger)rewardAmount name:(NSString *)rewardName {
+- (void)rewardedVideoDidFinish:(float)rewardAmount name:(NSString *)rewardName {
     NSDictionary *params = rewardName != nil ? @{
                                                  @"rewardAmount" : @(rewardAmount),
                                                  @"rewardType" : rewardName
                                                  }: nil;
-    [channel invokeMethod:@"onRewardedVideoFinished" arguments: params];
+                                                 
+   [channel invokeMethod:@"onRewardedVideoFinished" arguments: params];
 }
 
 @end
