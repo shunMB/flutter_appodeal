@@ -36,9 +36,7 @@ class _MyAppState extends State<MyApp> {
       };
       // You should use here your APP Key from Appodeal
       await FlutterAppodeal.instance.initialize(
-          Platform.isIOS
-              ? 'feba37aac5f05a690058dfa77ef1cf5559ba75c63834d437'
-              : 'feba37aac5f05a690058dfa77ef1cf5559ba75c63834d437',
+          Platform.isIOS ? 'IOSAPPKEY' : 'ANDROIDAPPKEY',
           types,
           true /* Assume GDPR consent is given for the sake of demo */);
     } on PlatformException {}
