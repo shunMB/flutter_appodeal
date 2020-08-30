@@ -5,6 +5,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+    
     }
 
     dependencies {
@@ -16,13 +17,16 @@ rootProject.allprojects {
     repositories {
         google()
         jcenter()
+        maven {
+            url "https://artifactory.appodeal.com/appodeal"
+        }
     }
 }
 
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 16
@@ -35,12 +39,15 @@ android {
     repositories {
         google()
         jcenter()
-        flatDir {
-            dirs 'libs'
-        }
     }
 
+
     dependencies {
-        api fileTree(dir: 'libs', include: ['*.jar'])
-    }
+  implementation ('com.appodeal.ads:sdk:2.6.5.+') {
+        exclude group: 'com.appodeal.ads.sdk.networks', module: 'amazon_ads'
+        exclude group: 'com.appodeal.ads.sdk.networks', module: 'appodeal'
+        exclude group: 'com.appodeal.ads.sdk.networks', module: 'inner-active'
+        exclude group: 'com.appodeal.ads.sdk.networks', module: 'nast'
+        exclude group: 'com.appodeal.ads.sdk.networks', module: 'yandex'
+    }    }
 }
