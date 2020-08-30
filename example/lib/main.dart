@@ -12,7 +12,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   String videoState;
 
   @override
@@ -36,8 +35,10 @@ class _MyAppState extends State<MyApp> {
         });
       };
       // You should use here your APP Key from Appodeal
-      await FlutterAppodeal.instance
-          .initialize(Platform.isIOS ? 'IOSAPPKEY' : 'ANDROIDAPPKEY', types, true /* Assume GDPR consent is given for the sake of demo */);
+      await FlutterAppodeal.instance.initialize(
+          Platform.isIOS ? 'IOSAPPKEY' : 'ANDROIDAPPKEY',
+          types,
+          true /* Assume GDPR consent is given for the sake of demo */);
     } on PlatformException {}
 
     // If the widget was removed from the tree while the asynchronous platform
