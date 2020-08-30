@@ -115,4 +115,8 @@
    [channel invokeMethod:@"onRewardedVideoFinished" arguments: params];
 }
 
+- (void)rewardedVideoDidExpired {
+    [channel invokeMethod:@"onRewardedVideoExpired" arguments:nil];
+}
+
 @end

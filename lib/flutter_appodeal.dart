@@ -18,6 +18,7 @@ enum RewardedVideoAdEvent {
   present,
   willDismiss,
   finish,
+  expired,
 }
 
 typedef void RewardedVideoAdListener(RewardedVideoAdEvent event,
@@ -27,10 +28,10 @@ class FlutterAppodeal {
   bool shouldCallListener;
 
   final MethodChannel _channel;
-
+  
   /// Called when the status of the video ad changes.
   RewardedVideoAdListener videoListener;
-
+  
   static const Map<String, RewardedVideoAdEvent> _methodToRewardedVideoAdEvent =
       const <String, RewardedVideoAdEvent>{
     'rewardedVideoDidLoadAdIsPrecache': RewardedVideoAdEvent.loaded,
@@ -41,6 +42,7 @@ class FlutterAppodeal {
     'rewardedVideoWillDismissAndWasFullyWatched':
         RewardedVideoAdEvent.willDismiss,
     'onRewardedVideoFinished': RewardedVideoAdEvent.finish,
+    'onRewardedVideoExpired': RewardedVideoAdEvent.expired,
   };
 
   static final FlutterAppodeal _instance = new FlutterAppodeal.private(
