@@ -47,7 +47,11 @@ public class FlutterAppodealPlugin implements MethodCallHandler, RewardedVideoCa
             return;
         }
 
-        if (call.method.equals("setUserData")) {
+        if (call.method.equals("setUserIdData")) {
+            String userId = call.argument("userId");
+            Appodeal.setUserId(userId);
+            result.success(Boolean.TRUE);
+        } if (call.method.equals("setUserFullData")) {
             String userId = call.argument("userId");
             int age = call.argument("age");
             int genderIndex = call.argument("gender");

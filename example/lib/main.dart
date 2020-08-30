@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
       };
       // You can set user data for better ad targeting and higher eCPM.
       // If not needed, remove or comment out below.
-      await FlutterAppodeal.instance.setUserData(
+      await FlutterAppodeal.instance.setUserFullData(
         userId: 'XXXXX-YYYYY-ZZZZZ',
         age: 25, 
         gender: 0, // Set 0:'male', 1:'female' or 2:'other'  

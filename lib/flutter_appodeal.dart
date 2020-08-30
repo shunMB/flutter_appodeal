@@ -55,13 +55,22 @@ class FlutterAppodeal {
 
   static FlutterAppodeal get instance => _instance;
 
-  Future setUserData({
+  Future setUserIdData({
+    String userId,
+  }) async {
+    shouldCallListener = false;
+    await _channel.invokeMethod('setUserIdData', <String, dynamic>{
+      'userId': userId,
+    });
+  }
+
+  Future setUserFullData({
     String userId,
     int age,
     int gender,
   }) async {
     shouldCallListener = false;
-    await _channel.invokeMethod('setUserData', <String, dynamic>{
+    await _channel.invokeMethod('setUserFullData', <String, dynamic>{
       'userId': userId,
       'age': age,
       'gender': gender,
