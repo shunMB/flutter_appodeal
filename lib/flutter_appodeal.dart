@@ -24,7 +24,6 @@ typedef void RewardedVideoAdListener(RewardedVideoAdEvent event,
     {String rewardType, double rewardAmount});
 
 class FlutterAppodeal {
-
   bool shouldCallListener;
 
   final MethodChannel _channel;
@@ -36,9 +35,11 @@ class FlutterAppodeal {
       const <String, RewardedVideoAdEvent>{
     'rewardedVideoDidLoadAdIsPrecache': RewardedVideoAdEvent.loaded,
     'onRewardedVideoFailedToLoad': RewardedVideoAdEvent.failedToLoad,
-    'onRewardedVideoDidFailToPresentWithError': RewardedVideoAdEvent.failedToPresent,
+    'onRewardedVideoDidFailToPresentWithError':
+        RewardedVideoAdEvent.failedToPresent,
     'onRewardedVideoPresent': RewardedVideoAdEvent.present,
-    'rewardedVideoWillDismissAndWasFullyWatched': RewardedVideoAdEvent.willDismiss,
+    'rewardedVideoWillDismissAndWasFullyWatched':
+        RewardedVideoAdEvent.willDismiss,
     'onRewardedVideoFinished': RewardedVideoAdEvent.finish,
   };
 
@@ -52,11 +53,19 @@ class FlutterAppodeal {
 
   static FlutterAppodeal get instance => _instance;
 
+  // NOTE: Additionally, gender and age can be set for
+  //   user data for better ad targeting and higher eCPM.
+  Future setUserData({
+    String userId,
+  }) async {
+    shouldCallListener = false;
+    await _channel.invokeMethod('setUserData', <String, dynamic>{
+      'userId': userId,
+    });
+  }
+
   Future initialize(
-    String appKey,
-    List<AppodealAdType> types,
-    bool hasConsent
-  ) async {
+      String appKey, List<AppodealAdType> types, bool hasConsent) async {
     shouldCallListener = false;
     List<int> itypes = new List<int>();
     for (final type in types) {
@@ -100,7 +109,8 @@ class FlutterAppodeal {
         _methodToRewardedVideoAdEvent[call.method];
     if (rewardedEvent != null && shouldCallListener) {
       if (this.videoListener != null) {
-        if (rewardedEvent == RewardedVideoAdEvent.finish && argumentsMap != null) {   
+        if (rewardedEvent == RewardedVideoAdEvent.finish &&
+            argumentsMap != null) {
           this.videoListener(rewardedEvent,
               rewardType: argumentsMap['rewardType'],
               rewardAmount: argumentsMap['rewardAmount']);

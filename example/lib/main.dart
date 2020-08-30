@@ -27,13 +27,19 @@ class _MyAppState extends State<MyApp> {
       List<AppodealAdType> types = new List<AppodealAdType>();
       types.add(AppodealAdType.AppodealAdTypeInterstitial);
       types.add(AppodealAdType.AppodealAdTypeRewardedVideo);
-      FlutterAppodeal.instance.videoListener =
-          (RewardedVideoAdEvent event, {String rewardType, double rewardAmount}) {
+      FlutterAppodeal.instance.videoListener = (RewardedVideoAdEvent event,
+          {String rewardType, double rewardAmount}) {
         print("RewardedVideoAd event $event");
         setState(() {
           videoState = "State $event";
         });
       };
+      // You can set user data for better ad targeting and higher eCPM.
+      // If not needed, remove or comment out below.
+      await FlutterAppodeal.instance.setUserData(
+        userId: 'XXXXX-YYYYY-ZZZZZ',
+      );
+
       // You should use here your APP Key from Appodeal
       await FlutterAppodeal.instance.initialize(
           Platform.isIOS ? 'IOSAPPKEY' : 'ANDROIDAPPKEY',

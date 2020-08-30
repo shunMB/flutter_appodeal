@@ -12,6 +12,11 @@ For help on editing plugin code, view the [documentation](https://flutter.io/pla
 You need to configure your apps first you use this plugin. Please refer to [Appodeal](https://www.appodeal.com/) documentation to get your apps configured.
 If you have any problems configuring your Flutter project, please take a look to Example project in the plugin code.
 
+iOS: when you use example app, do these steps:
+1. Add your admob app id(ex. ca-app-pub-XXXXXX) to example/ios/Runner/info.plist 
+2. Add your ios app key to init method in example/main.dart. Also, make sure your bundle id is correspond with registered one on dashboard.
+3. `flutter pub get` & `flutter run`
+
 Import the library via
 ``` dart
 import 'package:flutter_appodeal/flutter_appodeal.dart';

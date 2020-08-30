@@ -26,7 +26,11 @@
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
-  if ([@"initialize" isEqualToString:call.method]) {
+  if ([@"setUserData" isEqualToString:call.method]){
+      NSString* userId = call.arguments[@"userId"];
+      [Appodeal setUserId:userId];
+      result([NSNumber numberWithBool:YES]);
+  }else if ([@"initialize" isEqualToString:call.method]) {
       NSString* appKey = call.arguments[@"appKey"];
       NSArray* types = call.arguments[@"types"];
       NSNumber* hasConsent = call.arguments[@"hasConsent"];
