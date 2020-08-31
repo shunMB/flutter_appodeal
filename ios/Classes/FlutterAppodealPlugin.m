@@ -26,7 +26,31 @@
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
-  if ([@"initialize" isEqualToString:call.method]) {
+  if ([@"setUserIdData" isEqualToString:call.method]) {
+      NSString* userId = call.arguments[@"userId"];
+      [Appodeal setUserId:userId];
+      result([NSNumber numberWithBool:YES]);
+  }else if ([@"setUserFullData" isEqualToString:call.method]){
+      NSString* userId = call.arguments[@"userId"];
+      NSUInteger age = call.arguments[@"age"];
+      NSInteger genderIndex = call.arguments[@"gender"];
+      [Appodeal setUserId:userId];
+      [Appodeal setUserAge:age];
+      switch (genderIndex) {
+        case 0:
+            [Appodeal setUserGender:AppodealUserGenderMale];
+            break;
+        case 1:
+            [Appodeal setUserGender:AppodealUserGenderFemale];
+            break;
+        case 2:
+            [Appodeal setUserGender:AppodealUserGenderOther];
+            break;
+        default:
+            break;
+      }
+      result([NSNumber numberWithBool:YES]);
+  }else if ([@"initialize" isEqualToString:call.method]) {
       NSString* appKey = call.arguments[@"appKey"];
       NSArray* types = call.arguments[@"types"];
       NSNumber* hasConsent = call.arguments[@"hasConsent"];
@@ -42,7 +66,10 @@
       [Appodeal showAd:AppodealShowStyleInterstitial rootViewController:[FlutterAppodealPlugin rootViewController]];
       result([NSNumber numberWithBool:YES]);
   }else if ([@"showRewardedVideo" isEqualToString:call.method]) {
-      [Appodeal showAd:AppodealShowStyleRewardedVideo rootViewController:[FlutterAppodealPlugin rootViewController]];
+      NSString* placement = call.arguments[@"placement"];
+      if ([Appodeal isInitalizedForAdType:AppodealAdTypeRewardedVideo] && [Appodeal canShow:AppodealAdTypeRewardedVideo forPlacement:placement]) {
+            [Appodeal showAd:AppodealShowStyleRewardedVideo forPlacement:placement rootViewController:[FlutterAppodealPlugin rootViewController]];
+      }
       result([NSNumber numberWithBool:YES]);
   }else if ([@"isLoaded" isEqualToString:call.method]) {
       NSNumber *type = call.arguments[@"type"];
@@ -86,20 +113,30 @@
     [channel invokeMethod:@"onRewardedVideoFailedToLoad" arguments:nil];
 }
 
+- (void)rewardedVideoDidFailToPresentWithError:(NSError *)error {
+    [channel invokeMethod:@"onRewardedVideoDidFailToPresentWithError" arguments:@{@"error":error}];
+}
+
+
 - (void)rewardedVideoDidPresent {
     [channel invokeMethod:@"onRewardedVideoPresent" arguments:nil];
 }
 
-- (void)rewardedVideoWillDismissAndWasFullyWatched {
-    [channel invokeMethod:@"rewardedVideoWillDismissAndWasFullyWatched" arguments:nil];
+- (void)rewardedVideoWillDismissAndWasFullyWatched:(BOOL)wasFullyWatched {
+    [channel invokeMethod:@"rewardedVideoWillDismissAndWasFullyWatched" arguments:@{@"wasFullyWatched":@(wasFullyWatched)}];
 }
 
-- (void)rewardedVideoDidFinish:(NSUInteger)rewardAmount name:(NSString *)rewardName {
+- (void)rewardedVideoDidFinish:(float)rewardAmount name:(NSString *)rewardName {
     NSDictionary *params = rewardName != nil ? @{
                                                  @"rewardAmount" : @(rewardAmount),
                                                  @"rewardType" : rewardName
                                                  }: nil;
-    [channel invokeMethod:@"onRewardedVideoFinished" arguments: params];
+                                                 
+   [channel invokeMethod:@"onRewardedVideoFinished" arguments: params];
+}
+
+- (void)rewardedVideoDidExpired {
+    [channel invokeMethod:@"onRewardedVideoExpired" arguments:nil];
 }
 
 @end

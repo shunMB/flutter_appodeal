@@ -14,30 +14,35 @@ enum AppodealAdType {
 enum RewardedVideoAdEvent {
   loaded,
   failedToLoad,
+  failedToPresent,
   present,
   willDismiss,
   finish,
+  expired,
 }
 
 typedef void RewardedVideoAdListener(RewardedVideoAdEvent event,
-    {String rewardType, int rewardAmount});
+    {String rewardType, double rewardAmount});
 
 class FlutterAppodeal {
-
   bool shouldCallListener;
 
   final MethodChannel _channel;
-
+  
   /// Called when the status of the video ad changes.
   RewardedVideoAdListener videoListener;
-
+  
   static const Map<String, RewardedVideoAdEvent> _methodToRewardedVideoAdEvent =
       const <String, RewardedVideoAdEvent>{
     'rewardedVideoDidLoadAdIsPrecache': RewardedVideoAdEvent.loaded,
     'onRewardedVideoFailedToLoad': RewardedVideoAdEvent.failedToLoad,
+    'onRewardedVideoDidFailToPresentWithError':
+        RewardedVideoAdEvent.failedToPresent,
     'onRewardedVideoPresent': RewardedVideoAdEvent.present,
-    'rewardedVideoWillDismissAndWasFullyWatched': RewardedVideoAdEvent.willDismiss,
+    'rewardedVideoWillDismissAndWasFullyWatched':
+        RewardedVideoAdEvent.willDismiss,
     'onRewardedVideoFinished': RewardedVideoAdEvent.finish,
+    'onRewardedVideoExpired': RewardedVideoAdEvent.expired,
   };
 
   static final FlutterAppodeal _instance = new FlutterAppodeal.private(
@@ -50,11 +55,30 @@ class FlutterAppodeal {
 
   static FlutterAppodeal get instance => _instance;
 
+  Future setUserIdData({
+    String userId,
+  }) async {
+    shouldCallListener = false;
+    await _channel.invokeMethod('setUserIdData', <String, dynamic>{
+      'userId': userId,
+    });
+  }
+
+  Future setUserFullData({
+    String userId,
+    int age,
+    int gender,
+  }) async {
+    shouldCallListener = false;
+    await _channel.invokeMethod('setUserFullData', <String, dynamic>{
+      'userId': userId,
+      'age': age,
+      'gender': gender,
+    });
+  }
+
   Future initialize(
-    String appKey,
-    List<AppodealAdType> types,
-    bool hasConsent
-  ) async {
+      String appKey, List<AppodealAdType> types, bool hasConsent) async {
     shouldCallListener = false;
     List<int> itypes = new List<int>();
     for (final type in types) {
@@ -78,9 +102,11 @@ class FlutterAppodeal {
   /*
     Shows an Rewarded Video in the root view controller or main activity
    */
-  Future showRewardedVideo() async {
+  Future showRewardedVideo({String placement}) async {
     shouldCallListener = true;
-    _channel.invokeMethod('showRewardedVideo');
+    _channel.invokeMethod('showRewardedVideo', <String, dynamic>{
+      'placement': placement,
+    });
   }
 
   Future<bool> isLoaded(AppodealAdType type) async {
@@ -96,7 +122,8 @@ class FlutterAppodeal {
         _methodToRewardedVideoAdEvent[call.method];
     if (rewardedEvent != null && shouldCallListener) {
       if (this.videoListener != null) {
-        if (rewardedEvent == RewardedVideoAdEvent.finish && argumentsMap != null) {
+        if (rewardedEvent == RewardedVideoAdEvent.finish &&
+            argumentsMap != null) {
           this.videoListener(rewardedEvent,
               rewardType: argumentsMap['rewardType'],
               rewardAmount: argumentsMap['rewardAmount']);
