@@ -77,28 +77,9 @@ class _MyAppState extends State<MyApp> {
                 },
                 child: new Text('Show Rewarded'),
               )),
-          new Container(
-              height: 100.0,
-              color: Colors.blue,
-              child: new FlatButton(
-                onPressed: () {
-                  this.loadInterstital();
-                },
-                child: new Text('Show Interstitial'),
-              ))
         ])),
       ),
     ));
-  }
-
-  void loadInterstital() async {
-    bool loaded = await FlutterAppodeal.instance
-        .isLoaded(AppodealAdType.AppodealAdTypeInterstitial);
-    if (loaded) {
-      FlutterAppodeal.instance.showInterstitial();
-    } else {
-      print("Interstitial loading...");
-    }
   }
 
   void loadRewarded() async {
