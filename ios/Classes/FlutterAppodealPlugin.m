@@ -32,8 +32,8 @@
       result([NSNumber numberWithBool:YES]);
   }else if ([@"setUserFullData" isEqualToString:call.method]){
       NSString* userId = call.arguments[@"userId"];
-      NSUInteger age = call.arguments[@"age"];
-      NSInteger genderIndex = call.arguments[@"gender"];
+      NSUInteger age = [call.arguments[@"age"] longValue];
+      NSUInteger genderIndex = [call.arguments[@"gender"] longValue];
       [Appodeal setUserId:userId];
       [Appodeal setUserAge:age];
       switch (genderIndex) {
@@ -81,8 +81,6 @@
 
 - (AppodealAdType) typeFromParameter:(NSNumber*) parameter{
     switch ([parameter intValue]) {
-        case 0:
-            return AppodealAdTypeInterstitial;
         case 4:
             return AppodealAdTypeRewardedVideo;
         default:
@@ -93,8 +91,6 @@
 
 - (AppodealShowStyle) showStyleFromParameter:(NSNumber*) parameter{
     switch ([parameter intValue]) {
-        case 0:
-            return AppodealShowStyleInterstitial;
         case 4:
             return AppodealShowStyleRewardedVideo;
         default:
