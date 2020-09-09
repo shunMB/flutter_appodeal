@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
       types.add(AppodealAdType.AppodealAdTypeInterstitial);
       types.add(AppodealAdType.AppodealAdTypeRewardedVideo);
       FlutterAppodeal.instance.videoListener = (RewardedVideoAdEvent event,
-          {String rewardType, double rewardAmount}) {
+          {String rewardType, double rewardAmount, bool wasFullyWatched}) {
         print("RewardedVideoAd event $event");
         setState(() {
           videoState = "State $event";
