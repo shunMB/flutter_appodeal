@@ -123,10 +123,8 @@
 }
 
 - (void)rewardedVideoDidFinish:(float)rewardAmount name:(NSString *)rewardName {
-    NSDictionary *params = rewardName != nil ? @{
-                                                 @"rewardAmount" : @(rewardAmount),
-                                                 @"rewardType" : rewardName
-                                                 }: nil;
+    NSDictionary *params =  @{ @"rewardAmount" : @(rewardAmount),
+                                @"rewardType" : rewardName};
                                                  
    [channel invokeMethod:@"onRewardedVideoFinished" arguments: params];
 }

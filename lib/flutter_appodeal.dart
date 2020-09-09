@@ -22,7 +22,7 @@ enum RewardedVideoAdEvent {
 }
 
 typedef void RewardedVideoAdListener(RewardedVideoAdEvent event,
-    {String rewardType, double rewardAmount});
+    {String rewardType, double rewardAmount, bool wasFullyWatched});
 
 class FlutterAppodeal {
   bool shouldCallListener;
@@ -121,16 +121,26 @@ class FlutterAppodeal {
     final RewardedVideoAdEvent rewardedEvent =
         _methodToRewardedVideoAdEvent[call.method];
     if (rewardedEvent != null && shouldCallListener) {
+      
       if (this.videoListener != null) {
+        
         if (rewardedEvent == RewardedVideoAdEvent.finish &&
             argumentsMap != null) {
           this.videoListener(rewardedEvent,
               rewardType: argumentsMap['rewardType'],
               rewardAmount: argumentsMap['rewardAmount']);
+
+        } else if (rewardedEvent == RewardedVideoAdEvent.willDismiss &&
+            argumentsMap != null) {
+          this.videoListener(rewardedEvent,
+              wasFullyWatched: argumentsMap['wasFullyWatched']);
+        
         } else {
           this.videoListener(rewardedEvent);
         }
+
       }
+      
     }
 
     return null;
