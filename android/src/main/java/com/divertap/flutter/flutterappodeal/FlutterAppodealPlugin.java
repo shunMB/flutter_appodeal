@@ -66,6 +66,12 @@ public class FlutterAppodealPlugin implements MethodCallHandler, RewardedVideoCa
                     Appodeal.setUserGender(UserSettings.Gender.OTHER);
             }
             result.success(Boolean.TRUE);
+        } else if (call.method.equals("setDisableAutoCacheOnRewardedVideo")) {
+            Appodeal.setAutoCache(Appodeal.REWARDED_VIDEO, false);
+            result.success(Boolean.TRUE);
+        } else if (call.method.equals("setManualCacheOnRewardedVideo")) {
+            Appodeal.cache(activity, Appodeal.REWARDED_VIDEO);
+            result.success(Boolean.TRUE);
         } else if (call.method.equals("initialize")) {
             String appKey = call.argument("appKey");
             List<Integer> types = call.argument("types");
