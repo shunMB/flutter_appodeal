@@ -116,6 +116,23 @@ class FlutterAppodeal {
     return result;
   }
 
+  Future sharedSdkWithApiKey({String appKey}) async {
+    shouldCallListener = false;
+    await _channel.invokeMethod('sharedSdkWithApiKey', <String, dynamic>{
+      'appKey': appKey,
+    });
+  }
+
+  Future setDisableAutoCacheOnRewardedVideo({bool isAutoCaching=false}) async {
+    shouldCallListener = false;
+    await _channel.invokeMethod('setDisableAutoCacheOnRewardedVideo');
+  }
+
+  Future setManualCacheOnRewardedVideo() async {
+    shouldCallListener = false;
+    await _channel.invokeMethod('setManualCacheOnRewardedVideo');  
+  }
+
   Future<dynamic> _handleMethod(MethodCall call) {
     final Map<dynamic, dynamic> argumentsMap = call.arguments;
     final RewardedVideoAdEvent rewardedEvent =
@@ -123,8 +140,9 @@ class FlutterAppodeal {
     if (rewardedEvent != null && shouldCallListener) {
       
       if (this.videoListener != null) {
-        
-        if (rewardedEvent == RewardedVideoAdEvent.finish &&
+        if (rewardedEvent == RewardedVideoAdEvent.loaded) {
+          print('[DEBUG] Loaded done.');
+        } else if (rewardedEvent == RewardedVideoAdEvent.finish &&
             argumentsMap != null) {
           this.videoListener(rewardedEvent,
               rewardType: argumentsMap['rewardType'],

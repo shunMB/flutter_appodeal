@@ -50,11 +50,20 @@
             break;
       }
       result([NSNumber numberWithBool:YES]);
+  }else if ([@"setDisableAutoCacheOnRewardedVideo" isEqualToString:call.method]) {
+      [Appodeal setAutocache:NO types:AppodealAdTypeRewardedVideo];
+      result([NSNumber numberWithBool:YES]);
+  }else if ([@"setManualCacheOnRewardedVideo" isEqualToString:call.method]) {
+      [Appodeal cacheAd:AppodealAdTypeRewardedVideo];
+      result([NSNumber numberWithBool:YES]);
+  }else if([@"sharedSdkWithApiKey" isEqualToString:call.method]){
+      NSString* appKey = call.arguments[@"appKey"];
+      [APDSdk sharedSdkWithApiKey:appKey];
   }else if ([@"initialize" isEqualToString:call.method]) {
       NSString* appKey = call.arguments[@"appKey"];
       NSArray* types = call.arguments[@"types"];
       NSNumber* hasConsent = call.arguments[@"hasConsent"];
-      AppodealAdType type = types.count > 0 ? [self typeFromParameter:types.firstObject] : AppodealAdTypeInterstitial;
+      AppodealAdType type = types.count > 0 ? [self typeFromParameter:types.firstObject] : AppodealAdTypeRewardedVideo;
       int i = 1;
       while (i < types.count) {
           type = type | [self typeFromParameter:types[i]];
