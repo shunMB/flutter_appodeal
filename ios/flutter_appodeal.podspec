@@ -3,7 +3,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'flutter_appodeal'
-  s.version          = '0.0.3'
+  s.version          = '0.0.4'
   s.summary          = 'A Flutter plugin for Appodel SDK'
   s.description      = <<-DESC
 A Flutter plugin for Appodel SDK
